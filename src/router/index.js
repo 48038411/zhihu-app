@@ -59,6 +59,11 @@ const routes = [
 	{
 		path: 'recommoned',
 		component: () => import('../views/Recommoned.vue')
+		},
+		{
+			path: 'roundTable/:urlToken',
+			name: 'RoundTable',
+			component: () => import('../views/RoundTable.vue')
 		}
  	]
  },
