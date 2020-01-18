@@ -64,6 +64,10 @@ const routes = [
 			path: 'roundTable/:urlToken',
 			name: 'RoundTable',
 			component: () => import('../views/RoundTable.vue')
+		},
+		{
+			path: 'roundtables',
+			component: () => import('../views/RoundTables.vue')
 		}
  	]
  },

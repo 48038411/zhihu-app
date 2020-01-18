@@ -1,17 +1,21 @@
 <template>
 	<div>
-		<div class="nav gutter">
-			<div class="nav-bar">
-				<ul>
-				  <li><router-link to="/home">首页</router-link></li>
-				  <li><router-link to="/explore">发现</router-link></li>
-				  <li><router-link to="/question/waiting">等你来答</router-link></li>
-				  <li><router-link to="/special/all">查看全部</router-link></li>
-				  <li><router-link to="/login">登录</router-link></li>
-			</ul>
-
+		  <div> <!-- sticky wrapper, IMPORTANT -->
+		<van-sticky>
+			<div class="nav gutter">
+				<div class="nav-bar">
+					<ul>
+					  <li><router-link to="/home">首页</router-link></li>
+					  <li><router-link to="/explore">发现</router-link></li>
+					  <li><router-link to="/question/waiting">等你来答</router-link></li>
+					  <li><router-link to="/special/all">查看全部</router-link></li>
+					  <li><router-link to="/login">登录</router-link></li>
+				</ul>
+			
+				</div>
 			</div>
-		</div>
+		</van-sticky>
+		  </div>
 		<!-- 二级路由入口 -->
 		<router-view />
 	</div>
@@ -32,7 +36,13 @@
 	body{
 		margin: 0;
 	}
+	
 	ul {
+		position: -webkit-sticky;
+		    position: fixed;
+		    top: 0;
+		    background:#ccc;
+		    padding:10px 0;
 		// margin-top: 1000px;
 	 //    list-style-type: none;
 	 //    margin: 0;
@@ -45,8 +55,6 @@
 		    padding: 0;
 		    overflow: hidden;
 		    background-color: #ffffff;
-		    position: fixed;
-		    top: 0;
 		    width: 100%;
 	}
 	li {

@@ -6,6 +6,7 @@
 			<h1 style="margin-bottom: 100px; margin-top: 150px;margin-left: 100px; margin-right: 300px;float: right; font-size: 20px;
 			color:#778087;"  >共有{{details.visitsCount}}  次浏览   {{details.includeCount}}次关注</h1>
 		</div>
+	
 	</div>
 </template>
 <script>
@@ -32,6 +33,19 @@
 </script>
 
 <style style="scss" scoped>
+	.test{
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		-ms-flex-line-pack: justify;
+		align-content: space-between;
+		height: 904px
+	}
 	.box{
 		border-style: solid;
 	  width: 1000px;
