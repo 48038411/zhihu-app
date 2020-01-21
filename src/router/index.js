@@ -68,7 +68,11 @@ const routes = [
 		{
 			path: 'roundtables',
 			component: () => import('../views/RoundTables.vue')
-		}
+		},
+		{
+			path: 'favorite',
+			component: () => import('../views/MoreFavorites.vue')
+			}
  	]
  },
  {

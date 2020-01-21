@@ -31,15 +31,6 @@
 		</div>
 		<div class="container">
 				<div class="box2" v-for="(item1,index) in roundtable" :key="index">
-				<!-- 	<div style="position: relative; width: 170px; height: 89px;"> -->
-					<!-- <img  :src="item1.banner" alt="" style="width: 600px; height: 240px;">
-					<span style="position: absolute; top: 40px; left: 10px; color: #ffffff;">
-						<button style="background: transparent ; border: none;
-						font-size: 26px;" @click="getDescription(item1.urlToken)">{{item1.name}}</button>
-						{{item1.description}}
-						</span> -->
-						
-						
 						<div id="da">
 							<div id="tu"><img :src="item1.banner" /></div>
 						    <div id="dh"><button style="background: transparent ; border: none;
@@ -53,6 +44,32 @@
 					<router-link to="/roundtables" style="color: #8590a6; font-size: 20px; text-decoration: none;">查看更多圆桌  ></router-link></button>
 					</div>
 				</div>
+				<div class="banner">
+					<img src="../assets/image/favorite.png" alt="" />
+					<h1 style="margin-left: 20px;">热门收藏夹</h1>
+				</div>
+				<div class="container">
+						<div class="box2" v-for="(item2,index) in favorites" :key="index">
+							<div class="title"><b>{{item2.title}}</b></div>
+							<div class="btn">关注收藏夹</div>
+							<p style="margin-left: 20px; font-size: 30px;"><img :src="item2.creatorAvatar" alt="" style="width: 2.5rem; height: 2.5rem">&nbsp;{{item2.creatorName}}&nbsp;<font color="#999999" size="4">创建
+							&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+							{{item2.followers}}人关注
+							</font>
+							</p>
+							<hr style="color: #ebebeb; width: 90%;" />
+							<div>
+								<p style="margin-left: 20px;"><b>{{item2.questionTitle}}</b></p>
+								<p style="margin-left: 20px; font-size: 20px; color: #444444;"><span class="text-oneline">{{item2.answerAuthorName}}:{{item2.answerContent}}</span></p>
+								<p style="margin-left: 20px; font-size: 15px;">回答 &nbsp;{{item2.voteupCount}}赞同,{{item2.commentCount}}评论</p>
+							</div>
+							
+							</div>
+							<div align="center"><button style="border-radius: 25px; height: 72px; background-color: #ffffff; margin-top: 10px;">
+							<router-link to="/favorite" style="color: #8590a6; font-size: 20px; text-decoration: none;">查看更多收藏夹 ></router-link></button>
+							</div>
+						</div>
+						
 				
 	</div>
 </template> 
@@ -63,7 +80,8 @@
 		data() {
 			return {
 				table: [],
-				roundtable: []
+				roundtable: [],
+				favorites: []
 			};
 	},
 	methods: {
@@ -82,8 +100,13 @@
 		});
 		this.axios.get('http://localhost:8080/api/roundtable/recent').then(resp =>{
 			this.roundtable = resp.data.data;
+			console.log(resp);
 			localStorage.setItem("list1",JSON.stringify(resp.data.data));
 		});
+		this.axios.get('http://localhost:8080/api/favorite').then(respn =>{
+			this.favorites = respn.data.data
+			console.log(respn)
+		})
 	
 	}
 	
@@ -92,6 +115,27 @@
 </script>
 
 <style lang="scss" scoped>
+	  .text-oneline{
+	            display:block;            /*内联对象需加*/
+	            word-break:keep-all;      /* 不换行 */
+	            white-space:nowrap;       /* 不换行 */
+	            overflow:hidden;          /* 内容超出宽度时隐藏超出部分的内容 */
+	            text-overflow:ellipsis;   /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+	        }
+	.btn{
+		float: right;
+		background-color: #ebf5ff;
+		width: 155px;
+		height: 50px;
+		font-size: 25px;
+		text-align: center;
+		color: #0084ff;
+		margin-right: 20px;
+	}
+	.title{
+		margin-top: 40px;
+		margin-left: 20px;
+	}
 	.des{
 		top: 80px;
 		font-size: 14px;
@@ -151,8 +195,8 @@
 		-ms-flex-negative: 0;
 		flex-shrink: 0;
 	  width: 600px;
-	  height: 240px;
-	  background-color: #f6f6f6;
+	  height:400px;
+	  background-color: #ffffff;
 	  margin: 25px 0 25px 15px;
 	  float: left;
 	  img{
