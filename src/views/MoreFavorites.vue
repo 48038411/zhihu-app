@@ -27,7 +27,7 @@
         </div>
          <div class="content-div2">
              <div class="div2-title"><a href="">{{ moreFavorite.questionTitle }}</a></div>
-             <div class="div2-content">{{ moreFavorite.answerAuthorName }}: {{ moreFavorite.answerContent | suolv2 }}</div>
+             <div class="div2-content">{{ moreFavorite.answerAuthorName }}: <div v-html="moreFavorite.answerContent"></div></div>
              <div class="div2-detail">
                  <ul>
                      <li>回答</li>

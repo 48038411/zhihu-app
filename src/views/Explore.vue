@@ -2,8 +2,11 @@
 	<div>
 		<div class="banner">
 			<img src="../assets/image/book.png" alt="" />
-			<h1 style="margin-left: 30px">最新专题</h1>
+		<h1 style="margin-left: 30px">最新专题</h1>
 		</div>
+			<div id="searchBar" :class="scrollFixed === true ? 'isFixed' :''">
+				
+			</div>
 		<div class="container">
 				<div class="box" v-for="(item,index) in table" :key="index">
 					<div><img  :src="item.banner" alt="" /></div>
@@ -70,7 +73,24 @@
 							</div>
 						</div>
 						
-				
+				<div class="banner">
+					<img src="../assets/image/pen.png" alt="" />
+					<h1 style="margin-left: 20px;">专栏</h1>
+				</div>
+				<div class="container">
+					<div class="zhuanlan" v-for="(columns,index) in columnslist" :key="index">
+						<div class="avatar">
+							<img :src="columns.imageUrl" alt="" />
+						</div>
+						<p class="text-oneline">{{columns.title}}</p>
+						<p style="font-size: 16px; color: #999999;">{{columns.followers}}关注，{{columns.articlesCount}}文章</p>
+						<p class="text-two">{{columns.description}}</p>
+						<p class="btn">进入专栏</p>
+					</div>
+					<div align="center"><button style="border-radius: 25px; height: 72px; background-color: #ffffff; margin-top: 10px;">
+					<router-link to="/morecolumns" style="color: #8590a6; font-size: 20px; text-decoration: none;">查看更多专栏 ></router-link></button>
+					</div>
+				</div>
 	</div>
 </template> 
 
@@ -81,7 +101,10 @@
 			return {
 				table: [],
 				roundtable: [],
-				favorites: []
+				favorites: [],
+				columnslist: [],
+				scrollFixed: false,
+				offsetTop: 0
 			};
 	},
 	methods: {
@@ -89,8 +112,28 @@
 	this.$router.push({
 		path:`/roundTable/${urlToken}`,
 	})			
-		}
+		},
+		  windowScroll () {
+		                // 滚动条顶部 距 滚动原点的高度
+		                let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+		                /**
+		                 * 三目运算
+		                 * 两个高度比较 
+		                 * 如果滑动距离 > 吸顶元素到页面顶端距离  动态添加
+		                 */
+		                scrollTop >= this.offsetTop ? (this.scrollFixed = true, this.text = '已吸顶') : (this.scrollFixed = false, this.text = '需要吸顶');
+		            }
 	
+	},
+	mounted() {
+		  // 需吸顶元素 距 离浏览器顶端的高度
+		            this.offsetTop = document.querySelector('#searchBar').offsetTop;
+		            // 滚动监听
+		            window.addEventListener('scroll', this.windowScroll);
+	},
+	destroyed() {
+		 // 关闭 销毁监听
+		            window.removeEventListener('scroll', this.windowScroll);
 	},
 	created() {
 		this.axios.get('http://localhost:8080/api/special').then(res => {
@@ -106,6 +149,9 @@
 		this.axios.get('http://localhost:8080/api/favorite').then(respn =>{
 			this.favorites = respn.data.data
 			console.log(respn)
+		});
+		this.axios.get('http://localhost:8080/api/columns').then(columns =>{
+			this.columnslist = columns.data.data
 		})
 	
 	}
@@ -115,6 +161,49 @@
 </script>
 
 <style lang="scss" scoped>
+	.avatar {
+		margin-top: 30px;
+	    width: 48px;
+	    height: 48px;
+	    margin: 0 auto;
+	
+	    img {
+	        border-radius: 50%;
+	        width: 100%;
+	        height: 100%;
+	    }
+	}
+	.text-two{
+		display: -webkit-box;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.container{
+		
+		background-color: #f6f6f6;
+	}
+	.zhuanlan{
+		text-align: center;
+		-ms-flex-negative: 0;
+		flex-shrink: 0;
+		width: 270px;
+		// height:400px;
+		background-color: #ffffff;
+		margin: 25px 0 25px 15px;
+		float: left;
+		margin-left: 30px;
+	}
+	.isFixed{
+		position:fixed;
+		top:0;
+		left: 100px;
+		z-index:999;
+		background: #12d168;
+		transition: all 1s;
+		color: #7511ff;
+	}
 	  .text-oneline{
 	            display:block;            /*内联对象需加*/
 	            word-break:keep-all;      /* 不换行 */
