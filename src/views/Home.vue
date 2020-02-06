@@ -1,107 +1,119 @@
 <template>
-	<div class="body">
-	<div class="banner">
-		<ul>
-		<li><router-link to="/recommoned" class="router"><h1>推荐</h1></router-link></li>
-		<li><router-link to="/follow" class="router"><p class="text">关注</p></router-link></li>
-		<li><router-link to="/hot" class="router"><p class="text">热榜</p></router-link></li>
-		</ul>
-	</div>
-	<div class="container">
-		<div class="row" v-for="(item,index) in recommoned" :key="index">
-			<div class="col-4">
-			<img :src="item.banner" alt=""></div>
-			<div class="col-8">
-				<h3>{{ item.title}}</h3>
-				<small>{{item.introduction}}</small>
-				<p class="meta">{{ item.updated}} 更新，{{ item.viewCount }}次浏览</p>
-				<span v-for="(section,index) in item.sections" :key="index" class="section">
-					{{ section.sectionTitle }}
-				</span>
-			</div>
-		</div>
-	</div>
-	</div>
+    <div id="home">
+        <div class="container">
+          <div class="left">
+              <div class="banner">
+                  <!--头部导航栏-->
+                  <HomeHeader></HomeHeader>
+              </div>
+
+          </div>
+        </div>
+        <div class="right">
+            <div class="right">
+                <HomeRight></HomeRight>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-	export default {
-		name: 'recommoned',
-		// data一定要是个函数
-		data() {
-			return {
-				recommoned: []
-			};
-		},
-		created() {
-			this.axios.get('http://localhost:8080/api/special').then(res => {
-				console.log(res);
-				console.log("ceece")
-				this.recommoned = res.data.data;
-			});
-		}
-	};
+    /*引入头部组件*/
+    import HomeHeader from '../components/HomeHeader.vue'
+   /* 引入右边栏组件*/
+    import  HomeRight from '../components/HomeRight.vue'
+    export default {
+        name: "specials",
+        data() {
+            return {
+                specials: [],
+            };
+        },
+        /*组件*/
+        components:{
+        HomeHeader, /*头部导航栏*/
+        HomeRight
+
+        },
+        created() {
+            this.axios.get('http://localhost:8080/api/specials/all').then(res => {
+                console.log(res);
+                this.specials = res.data.data;
+            });
+        }
+    };
 </script>
+
 <style lang="scss" scoped>
-	.body{
-		background-color: #f6f6f6;
-	}
-	ul {
-		list-style-type: none;
+	/*.NewYearimage{*/
+		/*width: 50%;*/
+		/*height: 10%;*/
+	/*}*/
+    #home{
+        width: 100%;
+        background: #eee;
+        margin: 0  auto;
+        display: flex;
+
+    }
+
+    .container{
+        width: 54%;
+        color: black;
+        padding-left:30px;
+        margin-left: 10%;
+
+        .left{
+            width: 100%;
+            .banner{
+                width: 100%;
+
+            }
+        }
+        .right{
+            width: 30%;
+			margin-top: 50px;
+            margin-left: -10%;
+        }
+
+
+    }
+
+    h3{
+       margin-top: 40px;
+        margin-left: -20;
+    }
+    .row{
+
+        width: 100%;
+       .content{
+           display: flex;
+           min-height:100px;
+       }
+        .bottom{
+            margin-top: 0;
+            scroll-padding: 20px;
+            .meta{
+                color: #8590a6;
+            }
+        }
+    }
+    .col-4{
+        min-height:100px;
+        img{
+            width: 190px;
+            height: 105px;
+        }
+    }
+    .col-8{
+        margin-top: 0;
+        padding-left: 20px;
+        min-height:100px;
+    }
+.right{
+   position: absolute;
+    left:64%;
+    top:40px;
+    width: 300px;
 }
-li {
-		font-size: larger;
-		margin-top: 10px;
-		margin-left: 50px;
-	    float: left;
-	}
-	.banner {
-		margin-bottom: 10px;
-		margin-top: 80px;
-		height: 100px;
-		border: 1px solid #d6d6d6;
-		box-shadow: 2px 5px 5px #ddd;
-		display: flex;
-		align-items: center;
-	}
-	h1{
-		color: #0084ff;
-	}
-	.text{
-	margin-top: 32px;	
-	color: #000000;
-	font-size: 30px;
-	}
-	.router{
-		text-decoration: none;
-	}
-	.container{
-		overflow: auto;
-		margin: 0 auto;
-		margin-top: 50px;
-		width: 80%;
-		background-color :#ffffff;
-		font-size: 25px;
-		.row{
-			background-color: #ffffff;
-			display: flex;
-			border: 1px solid #d6d6d6;
-			border-radius: 4px;
-			height: auto;
-			padding: 14px;
-			box-shadow: 0 1px 3px 0 rgba(26,26,26,0.1);
-			.col-4{
-				flex: 0 0 33%;
-				height: auto;
-				img {
-					width: 100%;
-					height: 100%;
-					border-radius: 10px;
-				}
-			}
-			.col-8{
-				margin-left: 30px;
-			}
-		}
-	}
 </style>
